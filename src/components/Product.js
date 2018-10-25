@@ -20,6 +20,23 @@ const colors = ['white', 'eggshell-white', 'salmon']
 
 
 Product.defaultProps = {
-  hasWatermark: false, 
-  
+  hasWatermark: false,
+}
+
+Product.PropTypes = {
+  name: PropTypes.string.isRequired,
+  producer: PropTypes.string,
+  hasWatermark: PropTypes.bool,
+  color: PropTypes.oneOf(colors).isRequired,
+  weight: function(props, propName, componentName) {
+   if (!props[propName]) {
+     return new Error("Needs number")
+   }
+   if (isNaN(props[propName])) {
+     return new Error("Not a number")
+   }
+   if (props[propName] < 80 || props[propName] > 300) {
+     return new Error("Outside of weight range")
+   }
+ } 
 }
